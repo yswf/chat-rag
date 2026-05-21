@@ -121,7 +121,9 @@ async def build_messages(
     """Build the messages array for the LLM, including RAG context and history."""
     # 1. Embed user question
     embedding_resp = await client.embeddings.create(
-        model=settings.embedding_model, input=[user_message]
+        model=settings.embedding_model,
+        input=[user_message],
+        dimensions=settings.embedding_dimensions,
     )
     query_embedding = embedding_resp.data[0].embedding
 

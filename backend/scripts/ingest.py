@@ -99,7 +99,9 @@ async def ingest_directory(docs_dir: str) -> dict[str, int]:
         texts = [r["content"] for r in batch]
 
         response = await client.embeddings.create(
-            model=settings.embedding_model, input=texts
+            model=settings.embedding_model,
+            input=texts,
+            dimensions=settings.embedding_dimensions,
         )
 
         for j, emb in enumerate(response.data):

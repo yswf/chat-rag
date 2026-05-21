@@ -6,6 +6,8 @@ from sqlalchemy import DateTime, ForeignKey, Text, UniqueConstraint, func
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
+from app.config import settings
+
 
 class Base(DeclarativeBase):
     pass
@@ -19,7 +21,9 @@ class Document(Base):
     )
     content: Mapped[str] = mapped_column(Text, nullable=False)
     metadata_: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
-    embedding: Mapped[list[float]] = mapped_column(Vector(1536), nullable=False)
+    embedding: Mapped[list[float]] = mapped_column(
+        Vector(settings.embedding_dimensions), nullable=False
+    )
     content_hash: Mapped[str] = mapped_column(Text, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
